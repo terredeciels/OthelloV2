@@ -1,7 +1,6 @@
 package othello;
 
 import oth.Constantes;
-import oth.Oth;
 
 import java.io.IOException;
 
@@ -10,11 +9,11 @@ import static java.util.stream.IntStream.range;
 public class OthPrinter implements Constantes {
 
 
-    final Oth o;
+    final Othello o;
     int num;
 
 
-    public OthPrinter(Oth o) {
+    public OthPrinter(Othello o) {
         this.o = o;
 
     }
@@ -41,7 +40,7 @@ public class OthPrinter implements Constantes {
     }
 
     void affichage() {
-        for (Oth.Coups cps : o.lcoups)
+        for (Othello.Coups cps : o.lcoups)
             System.out.println(cps);
         System.out.println("num " + num++);
         System.out.println(o.trait == blanc ? "blanc" : "noir");
@@ -54,7 +53,7 @@ public class OthPrinter implements Constantes {
         oth.sN = 0;
         oth.sB = 0;
         range(0, 100).forEach(c -> {
-            switch (oth.o.etats[c]) {
+            switch (o.etats[c]) {
 
                 case blanc -> oth.sB++;
                 case noir -> oth.sN++;

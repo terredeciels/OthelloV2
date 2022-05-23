@@ -1,6 +1,6 @@
 package perft;
 
-import oth.Oth;
+import othello.Othello;
 
 import java.util.List;
 
@@ -35,10 +35,10 @@ public class PerftSpeed {
 
     static void perftTest() {
 
-        Oth o = new Oth();
+        Othello o = new Othello();
         double t0 = System.nanoTime();
         for (int depth = 1; depth <= MAX_DEPTH; depth++) {
-            PerftResult res = perft(new Oth(o), depth);
+            PerftResult res = perft(new Othello(o), depth);
             double t1 = System.nanoTime();
             System.out.println("Depth " + depth + " : " + (t1 - t0) / 1000000000 + " sec");
             System.out.println("Count = " + res.moveCount);
@@ -46,7 +46,7 @@ public class PerftSpeed {
 
     }
 
-    static PerftResult perft(Oth o, int depth) {
+    static PerftResult perft(Othello o, int depth) {
 
         PerftResult result = new PerftResult();
         if (depth == 0) {
@@ -55,18 +55,18 @@ public class PerftSpeed {
         }
 
         o.gen(o.trait);
-        List<Oth.Coups> moves = o.lcoups.stream().distinct().toList();
+        List<Othello.Coups> moves = o.lcoups.stream().distinct().toList();
         if (moves.size() != 0) {
-            for (Oth.Coups move : moves) {
+            for (Othello.Coups move : moves) {
                 o.move = move;
                 o.fmove(!undomove);
-                PerftResult subPerft = perft(new Oth(o), depth - 1);
+                PerftResult subPerft = perft(new Othello(o), depth - 1);
                 o.fmove(undomove);
                 result.moveCount += subPerft.moveCount;
 
             }
         } else {
-            PerftResult subPerft = perft(new Oth(o), depth - 1);
+            PerftResult subPerft = perft(new Othello(o), depth - 1);
             result.moveCount += subPerft.moveCount;
         }
         return result;
