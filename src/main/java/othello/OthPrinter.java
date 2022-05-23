@@ -9,11 +9,11 @@ import static java.util.stream.IntStream.range;
 public class OthPrinter implements Constantes {
 
 
-    final Othello o;
+    final Oth o;
     int num;
 
 
-    public OthPrinter(Othello o) {
+    public OthPrinter(Oth o) {
         this.o = o;
 
     }
@@ -40,7 +40,7 @@ public class OthPrinter implements Constantes {
     }
 
     void affichage() {
-        for (Othello.Coups cps : o.lcoups)
+        for (UtilsClass.Coups cps : o.lcoups)
             System.out.println(cps);
         System.out.println("num " + num++);
         System.out.println(o.trait == blanc ? "blanc" : "noir");
@@ -49,7 +49,7 @@ public class OthPrinter implements Constantes {
     }
 
 
-    void resultat(Othello oth) {
+    void resultat(Oth oth) {
         oth.sN = 0;
         oth.sB = 0;
         range(0, 100).forEach(c -> {
@@ -65,8 +65,8 @@ public class OthPrinter implements Constantes {
 
         try {
             // R = sB > sN ? "1" : (sN > sB ? "0" : "0.5");
-            Othello.writter.write(R + "," + oth.sB + "," + oth.sN);
-            Othello.writter.write("\n");
+            Oth.writter.write(R + "," + oth.sB + "," + oth.sN);
+            Oth.writter.write("\n");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

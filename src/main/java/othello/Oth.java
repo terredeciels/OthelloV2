@@ -11,43 +11,43 @@ import java.util.List;
 
 import static java.util.stream.IntStream.range;
 import static java.util.stream.IntStream.rangeClosed;
-import static othello.Othello.Coups.NOMOVE;
+import static othello.UtilsClass.Coups.NOMOVE;
 
-public class Othello implements Constantes {
+public class Oth implements Constantes {
 
     static int nb;
     static int max = 100;
     static FileWriter writter;
-    public List<Coups> lcoups;
+    public List<UtilsClass.Coups> lcoups;
     public int[] etats;
-    public Coups move;
+    public UtilsClass.Coups move;
     public int trait;
     OthPrinter othprint;
     boolean passe = true;
     boolean findepartie;
     int sN;
     int sB;
-    List<Score> lscore;
+    List<UtilsClass.Score> lscore;
     int n;
     int caseO;
     int _case;
     int dir;
-    Etat S0;
-    Etat S1;
+    UtilsClass.Etat S0;
+    UtilsClass.Etat S1;
     {
-        S0 = new Othello.Etat() {
+        S0 = new UtilsClass.Etat() {
             @Override
-            Othello.Etat exec() {
+            UtilsClass.Etat exec() {
                 n++;
                 return nextetat() == -trait ? S0.exec() : S1.exec();
             }
         };
-        S1 = new Othello.Etat() {
+        S1 = new UtilsClass.Etat() {
             @Override
-            Othello.Etat exec() {
+            UtilsClass.Etat exec() {
                 if (memetrait() && n - 1 != 0) {
-                    lscore.add(new Othello.Score(n - 1, dir));
-                    lcoups.add(new Othello.Coups(caseO, lscore));
+                    lscore.add(new UtilsClass.Score(n - 1, dir));
+                    lcoups.add(new UtilsClass.Coups(caseO, lscore));
                 }
                 n = 0;
                 return null;
@@ -55,13 +55,13 @@ public class Othello implements Constantes {
         };
     }
 
-    public Othello(Othello o) {
+    public Oth(Oth o) {
         etats = o.etats;
         trait = -o.trait;
         lcoups = new ArrayList<>();
     }
 
-    public Othello() {
+    public Oth() {
         etats = ETATS_INIT.clone();
         trait = blanc;//noirs commencent
         lcoups = new ArrayList<>();
@@ -71,12 +71,12 @@ public class Othello implements Constantes {
     public static void main(String[] args) throws IOException {
         new File(pathname + filename).createNewFile();
         writter = new FileWriter(filename);
-        rangeClosed(1, max).forEach(Othello::partie);
+        rangeClosed(1, max).forEach(Oth::partie);
     }
 
      static void partie(int num) {
         nb = num;
-        new Othello().jouer();
+        new Oth().jouer();
     }
 
     public void jouer() {
@@ -125,7 +125,7 @@ public class Othello implements Constantes {
 
     void statemachine(int d) {
        dir = d;
-       Etat etat = S0;
+       UtilsClass.Etat etat = S0;
        while (true)
            if ((etat = etat.exec()) == S1 || etat == null) break;
    }
@@ -150,30 +150,4 @@ public class Othello implements Constantes {
         lcoups = new ArrayList<>();
     }
 
-    abstract static class Etat {
-        abstract Etat exec();
-    }
-
-    public record Coups(int sq0, List<Score> lscore) {
-        public static Coups NOMOVE;
-
-
-        @Override
-        public String toString() {
-            return "(" + SCASES[sq0] + ", " + lscore + ")";
-        }
-
-
-    }
-
-    public record Score(int n, int dir) {
-        @Override
-        public int n() {
-            return n;
-        }
-    }
-
-    public record ScoreCase(Coups coups, int sum) {
-
-    }
 }

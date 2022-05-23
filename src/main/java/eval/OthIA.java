@@ -1,14 +1,14 @@
 package eval;
 
-import othello.Othello;
+import othello.UtilsClass;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import static othello.Othello.Coups;
-import static othello.Othello.Coups.NOMOVE;
+import static othello.UtilsClass.Coups;
+import static othello.UtilsClass.Coups.NOMOVE;
 
 public class OthIA {
 
@@ -38,14 +38,14 @@ public class OthIA {
         @Override
         public Coups eval(List<Coups> lcoups) {
             if (lcoups.size() != 0) {
-                List<Othello.ScoreCase> lscorecase = new ArrayList<>();
+                List<UtilsClass.ScoreCase> lscorecase = new ArrayList<>();
                 lcoups.forEach(coups -> {
-                    int sum = coups.lscore().stream().mapToInt(Othello.Score::n).sum();
-                    lscorecase.add(new Othello.ScoreCase(coups, sum));
+                    int sum = coups.lscore().stream().mapToInt(UtilsClass.Score::n).sum();
+                    lscorecase.add(new UtilsClass.ScoreCase(coups, sum));
                 });
-                List<Integer> ln = lscorecase.stream().map(Othello.ScoreCase::sum).toList();
+                List<Integer> ln = lscorecase.stream().map(UtilsClass.ScoreCase::sum).toList();
                 int max = Collections.max(ln);
-                List<Othello.ScoreCase> scoreCases = lscorecase.stream().filter(cc -> cc.sum() == max).toList();
+                List<UtilsClass.ScoreCase> scoreCases = lscorecase.stream().filter(cc -> cc.sum() == max).toList();
                 int index = new Random().nextInt(scoreCases.size());
                 return scoreCases.get(index).coups();
             } else return NOMOVE;
