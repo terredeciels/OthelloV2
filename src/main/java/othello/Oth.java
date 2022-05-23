@@ -34,6 +34,7 @@ public class Oth implements Constantes {
     int dir;
     Etat S0;
     Etat S1;
+    private Coups choicemove;
 
     {
         S0 = new Etat() {
@@ -78,6 +79,7 @@ public class Oth implements Constantes {
                 gen(trait);
                 // o.move = new OthIA().getEvalRandom().eval(o.lcoups.stream().distinct().toList());
                 move = new OthIA().getEvalMax().eval(lcoups.stream().distinct().toList());
+
                 passe_et_findepartie();
                 changeside();
             } else break;
@@ -140,27 +142,5 @@ public class Oth implements Constantes {
         lcoups = new ArrayList<>();
     }
 
-    //-----------------------------------------------------------
-
-    public List<Coups> getLegalMoves() {
-        return null;
-    }
-
-    public Oth getNewChildBoard(Coups move) {
-        return null;
-    }
-
-    public char getCurrentPlayer() {
-
-        return 0;
-    }
-
-    public boolean isTheGameOver() {
-        return false;
-    }
-
-    public double getScore() {
-        return 0;
-    }
 
 }
