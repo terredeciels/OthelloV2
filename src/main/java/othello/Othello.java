@@ -24,7 +24,6 @@ public class Othello implements Constantes {
     int sN;
     int sB;
 
-
     public Othello() {
         o = new Oth();
         othprint = new OthPrinter(o);
