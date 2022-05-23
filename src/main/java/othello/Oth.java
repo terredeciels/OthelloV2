@@ -3,7 +3,6 @@ package othello;
 import eval.OthIA;
 import oth.Constantes;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.List;
 
 import static java.util.stream.IntStream.range;
 import static java.util.stream.IntStream.rangeClosed;
+import static othello.UtilsClass.*;
 import static othello.UtilsClass.Coups.NOMOVE;
 
 public class Oth implements Constantes {
@@ -18,33 +18,34 @@ public class Oth implements Constantes {
     static int nb;
     static int max = 100;
     static FileWriter writter;
-    public List<UtilsClass.Coups> lcoups;
+    public List<Coups> lcoups;
     public int[] etats;
-    public UtilsClass.Coups move;
+    public Coups move;
     public int trait;
     OthPrinter othprint;
     boolean passe = true;
     boolean findepartie;
     int sN;
     int sB;
-    List<UtilsClass.Score> lscore;
+    List<Score> lscore;
     int n;
     int caseO;
     int _case;
     int dir;
-    UtilsClass.Etat S0;
-    UtilsClass.Etat S1;
+    Etat S0;
+    Etat S1;
+
     {
-        S0 = new UtilsClass.Etat() {
+        S0 = new Etat() {
             @Override
-            UtilsClass.Etat exec() {
+            Etat exec() {
                 n++;
                 return nextetat() == -trait ? S0.exec() : S1.exec();
             }
         };
-        S1 = new UtilsClass.Etat() {
+        S1 = new Etat() {
             @Override
-            UtilsClass.Etat exec() {
+            Etat exec() {
                 if (memetrait() && n - 1 != 0) {
                     lscore.add(new UtilsClass.Score(n - 1, dir));
                     lcoups.add(new UtilsClass.Coups(caseO, lscore));
@@ -66,17 +67,6 @@ public class Oth implements Constantes {
         trait = blanc;//noirs commencent
         lcoups = new ArrayList<>();
         othprint = new OthPrinter(this);
-    }
-
-    public static void main(String[] args) throws IOException {
-        new File(pathname + filename).createNewFile();
-        writter = new FileWriter(filename);
-        rangeClosed(1, max).forEach(Oth::partie);
-    }
-
-     static void partie(int num) {
-        nb = num;
-        new Oth().jouer();
     }
 
     public void jouer() {
@@ -124,11 +114,11 @@ public class Oth implements Constantes {
     }
 
     void statemachine(int d) {
-       dir = d;
-       UtilsClass.Etat etat = S0;
-       while (true)
-           if ((etat = etat.exec()) == S1 || etat == null) break;
-   }
+        dir = d;
+        UtilsClass.Etat etat = S0;
+        while (true)
+            if ((etat = etat.exec()) == S1 || etat == null) break;
+    }
 
     public void fmove(boolean undomove) {
         move.lscore()
@@ -142,12 +132,35 @@ public class Oth implements Constantes {
     }
 
     int nextetat() {
-       return etats[_case = caseO + n * dir];
-   }
+        return etats[_case = caseO + n * dir];
+    }
 
     public void changeside() {
         trait = -trait;
         lcoups = new ArrayList<>();
+    }
+
+    //-----------------------------------------------------------
+
+    public List<Coups> getLegalMoves() {
+        return null;
+    }
+
+    public Oth getNewChildBoard(Coups move) {
+        return null;
+    }
+
+    public char getCurrentPlayer() {
+
+        return 0;
+    }
+
+    public boolean isTheGameOver() {
+        return false;
+    }
+
+    public double getScore() {
+        return 0;
     }
 
 }
