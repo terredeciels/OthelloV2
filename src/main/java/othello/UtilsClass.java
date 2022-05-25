@@ -11,7 +11,6 @@ public class UtilsClass {
         public static Coups NOMOVE;
 
 
-
         @Override
         public String toString() {
             return "(" + Constantes.SCASES[sq0] + ", " + lscore + ")";

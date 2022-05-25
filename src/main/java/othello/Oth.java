@@ -2,7 +2,6 @@ package othello;
 
 import eval.OthIA;
 
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class Oth implements Constantes {
     int dir;
     Etat S0;
     Etat S1;
-    private Coups choicemove;
+    Coups best_move;
 
     {
         S0 = new Etat() {
@@ -78,8 +77,9 @@ public class Oth implements Constantes {
             if (!findepartie) {
                 gen(trait);
                 // o.move = new OthIA().getEvalRandom().eval(o.lcoups.stream().distinct().toList());
-                move = new OthIA().getEvalMax().eval(lcoups.stream().distinct().toList());
-
+                  move = new OthIA().getEvalMax().eval(lcoups.stream().distinct().toList());
+               // if (lcoups.size() != 0) minimax(etats, 0, 4, 0, lcoups.get(0));
+               // move = best_move;
                 passe_et_findepartie();
                 changeside();
             } else break;
@@ -142,5 +142,43 @@ public class Oth implements Constantes {
         lcoups = new ArrayList<>();
     }
 
+    void minimax(int[] board, int depth, int max_depth,
+                 int chosen_score, Coups chosen_move) {
 
+        if (depth == max_depth) {
+            chosen_score = evaluation(board);
+        } else {
+            gen(trait);
+            List<UtilsClass.Coups> moves = lcoups.stream().distinct().toList();
+            if (moves.size() == 0) {
+                chosen_score = evaluation(board);
+            } else {
+                int best_score = Integer.MAX_VALUE;
+
+                for (Coups m : moves) {
+
+                    int[] new_board = board;
+                    move = m;
+                    fmove(!undomove);
+
+                    minimax(new_board, depth + 1, max_depth, chosen_score, move);
+                    if (better(chosen_score, best_score)) {
+                        best_score = chosen_score;
+                        best_move = move;
+                    }
+                }
+                chosen_score = best_score;
+                chosen_move = best_move;
+            }
+
+        }
+    }
+
+    private boolean better(int chosen_score, int best_score) {
+        return chosen_score > best_score;
+    }
+
+    private int evaluation(int[] board) {
+        return 10;
+    }
 }
