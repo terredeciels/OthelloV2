@@ -5,7 +5,7 @@ import othello.UtilsClass;
 
 import java.util.List;
 
-import static oth.Constantes.undomove;
+import static othello.Constantes.undomove;
 
 
 //DEPTH  #LEAF NODES   #FULL-DEPTH  #HIGHER

@@ -1,7 +1,7 @@
 package othello;
 
 import eval.OthIA;
-import oth.Constantes;
+
 
 import java.io.FileWriter;
 import java.io.IOException;

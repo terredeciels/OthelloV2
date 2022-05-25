@@ -1,7 +1,5 @@
 package othello;
 
-import oth.Constantes;
-
 import java.io.IOException;
 
 import static java.util.stream.IntStream.range;

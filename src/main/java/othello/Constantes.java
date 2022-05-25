@@ -1,4 +1,4 @@
-package oth;
+package othello;
 
 import java.util.List;
 

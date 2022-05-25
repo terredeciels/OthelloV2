@@ -1,7 +1,5 @@
 package othello;
 
-import oth.Constantes;
-
 import java.util.List;
 
 public class UtilsClass {
@@ -11,6 +9,7 @@ public class UtilsClass {
 
     public record Coups(int sq0, List<Score> lscore) {
         public static Coups NOMOVE;
+
 
 
         @Override
