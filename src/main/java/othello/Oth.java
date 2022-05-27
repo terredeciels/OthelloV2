@@ -167,6 +167,8 @@ public class Oth implements Constantes {
                 chosen_move = best_move;
             }
 
+
+
         }
     }
 
