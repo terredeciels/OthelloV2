@@ -1,10 +1,9 @@
 package perft;
 
-import othello.Oth;
-import othello.PerftSpeed;
+import othello.Othello;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static othello.PerftSpeed.MAX_DEPTH;
+import static perft.PerftSpeed.MAX_DEPTH;
 
 class PerftSpeedTest {
     //DEPTH  #LEAF NODES   #FULL-DEPTH  #HIGHER
@@ -28,10 +27,10 @@ class PerftSpeedTest {
         String[] expectcount = new String[]{"", "4", "12", "56", "244", "1396", "8200", "55092",
                 "390216", "3005288", "24571284", "212258800", "1939886636", "18429641748", "184042084512"};
 
-        Oth o = new Oth();
+        Othello o = new Othello();
         double t0 = System.nanoTime();
         for (int depth = 1; depth <= MAX_DEPTH; depth++) {
-            PerftSpeed.PerftResult res = PerftSpeed.perft(new Oth(o), depth);
+            PerftSpeed.PerftResult res = PerftSpeed.perft(new Othello(o), depth);
             double t1 = System.nanoTime();
             System.out.println("Depth " + depth + " : " + (t1 - t0) / 1000000000 + " sec");
             System.out.println("Count = " + res.moveCount + "  /  " + expectcount[depth]);
