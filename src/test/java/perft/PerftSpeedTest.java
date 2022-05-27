@@ -1,9 +1,10 @@
 package perft;
 
 import othello.Oth;
+import othello.PerftSpeed;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static perft.PerftSpeed.MAX_DEPTH;
+import static othello.PerftSpeed.MAX_DEPTH;
 
 class PerftSpeedTest {
     //DEPTH  #LEAF NODES   #FULL-DEPTH  #HIGHER

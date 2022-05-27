@@ -1,7 +1,5 @@
 package othello;
 
-import eval.OthIA;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -77,9 +75,7 @@ public class Oth implements Constantes {
             if (!findepartie) {
                 gen(trait);
                 // o.move = new OthIA().getEvalRandom().eval(o.lcoups.stream().distinct().toList());
-                  move = new OthIA().getEvalMax().eval(lcoups.stream().distinct().toList());
-               // if (lcoups.size() != 0) minimax(etats, 0, 4, 0, lcoups.get(0));
-               // move = best_move;
+                move = new OthIA().getEvalMax().eval(lcoups.stream().distinct().toList());
                 passe_et_findepartie();
                 changeside();
             } else break;

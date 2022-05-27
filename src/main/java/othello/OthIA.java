@@ -1,6 +1,4 @@
-package eval;
-
-import othello.UtilsClass;
+package othello;
 
 import java.util.ArrayList;
 import java.util.Collections;

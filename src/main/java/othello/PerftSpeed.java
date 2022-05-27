@@ -1,7 +1,4 @@
-package perft;
-
-import othello.Oth;
-import othello.UtilsClass;
+package othello;
 
 import java.util.List;
 
@@ -28,7 +25,7 @@ import static othello.Constantes.undomove;
 
 
 public class PerftSpeed {
-    static final int MAX_DEPTH = 10;
+    public static final int MAX_DEPTH = 10;
 
     public static void main(String[] args) {
         perftTest();
@@ -47,7 +44,7 @@ public class PerftSpeed {
 
     }
 
-    static PerftResult perft(Oth o, int depth) {
+    public static PerftResult perft(Oth o, int depth) {
 
         PerftResult result = new PerftResult();
         if (depth == 0) {
@@ -73,10 +70,10 @@ public class PerftSpeed {
         return result;
     }
 
-    static class PerftResult {
+    public static class PerftResult {
 
         public long timeTaken = 0;
-        long moveCount = 0;
+        public long moveCount = 0;
 
     }
 }
