@@ -31,13 +31,16 @@ public class Othello {
     static int nb;
     static int max = 100;
     static FileWriter writter;
-    final int noir = -1, blanc = 1, vide = 0, out = 2;
+    final static int noir = -1;
+    final static int blanc = 1;
+    public final static int vide = 0;
+    final static int out = 2;
     public List<Coups> lcoups;
     public int[] etats;
     public Coups move;
     public int trait;
     int N = -10, E = 1, Ouest = -1, S = 10, NE = -9, SO = 9, NO = -11, SE = 11;
-    List<Integer> DIRS = asList(N, NE, E, SE, S, SO, Ouest, NO);
+    public List<Integer> DIRS = asList(N, NE, E, SE, S, SO, Ouest, NO);
     int[] ETATS_INIT = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
             2, 0, 0, 0, 0, 0, 0, 0, 0, 2,
             2, 0, 0, 0, 0, 0, 0, 0, 0, 2,
@@ -52,23 +55,23 @@ public class Othello {
     boolean findepartie;
     int sN;
     int sB;
-    List<Score> lscore;
+    public List<Score> lscore;
     int n;
-    int caseO;
+    public int caseO;
     int _case;
-    int dir;
+    public int dir;
 
 
-    Etat S0 = new Etat() {
+    public Etat S0 = new Etat() {
         @Override
-        Etat exec() {
+        public Etat exec() {
             n++;
             return etats[_case = caseO + n * dir] == -trait ? S0.exec() : S1.exec();
         }
     };
-    Etat S1 = new Etat() {
+    public Etat S1 = new Etat() {
         @Override
-        Etat exec() {
+        public Etat exec() {
             if (etats[_case] == trait && n - 1 != 0) {
                 lscore.add(new Score(n - 1, dir));
                 lcoups.add(new Coups(caseO, lscore));
@@ -77,7 +80,6 @@ public class Othello {
             return null;
         }
     };
-
 
     public Othello() {
         etats = ETATS_INIT.clone();
@@ -95,13 +97,12 @@ public class Othello {
     public static void main(String[] args) throws IOException {
         new File(pathname + filename).createNewFile();
         Othello.writter = new FileWriter(filename);
-        rangeClosed(1, Othello.max).forEach(Othello::partie);
-    }
+        rangeClosed(1, Othello.max).forEach(
+                num -> {Othello.nb = num;
 
-    static void partie(int num) {
-        Othello.nb = num;
+        new Othello().jouer();}
 
-        new Othello().jouer();
+        );
     }
 
     public void jouer() {
@@ -110,14 +111,29 @@ public class Othello {
         lcoups = new ArrayList<>();
         while (true) {
             if (!findepartie) {
-                gen(trait);
-                move = EvalRandom(lcoups.stream().distinct().toList());
+
+                range(0, 100).filter(c -> etats[c] == vide).forEach(c -> {
+                    caseO = c;
+                    lscore = new ArrayList<>();
+                    DIRS.forEach(d -> {
+                        dir = d;
+                        Etat etat = S0;
+                        while (true)
+                            if ((etat = etat.exec()) == S1 || etat == null) break;
+                    });
+                });
+                // move = EvalRandom(lcoups.stream().distinct().toList());
+                move = (lcoups.size() != 0) ? lcoups.get(new Random().nextInt(lcoups.size()))
+                        : NOMOVE;
                 //  move = getEvalMax().eval(lcoups.stream().distinct().toList());
                 if (move == NOMOVE) if (passe) findepartie = true;
                 else passe = true;
                 else {
                     if (passe) passe = false;
-                    fmove(!undomove);
+                    move.lscore()
+                            .forEach(score -> rangeClosed(0, score.n())
+                                    .forEach(n -> etats[move.sq0() + n * score.dir()] = !undomove ? -trait : trait));
+                    etats[move.sq0()] = !undomove ? vide : trait;
                     // othprint.affichage();
                 }
                 trait = -trait;
@@ -154,38 +170,13 @@ public class Othello {
         }
     }
 
-
-    public void gen(int t) {
-        trait = t;
-        range(0, 100).filter(c -> etats[c] == vide).forEach(c -> {
-            caseO = c;
-            lscore = new ArrayList<>();
-            DIRS.forEach(d -> {
-                dir = d;
-                Etat etat = S0;
-                while (true)
-                    if ((etat = etat.exec()) == S1 || etat == null) break;
-            });
-        });
-
-    }
-
-
-    public void fmove(boolean undomove) {
-        move.lscore()
-                .forEach(score -> rangeClosed(0, score.n())
-                        .forEach(n -> etats[move.sq0() + n * score.dir()] = undomove ? -trait : trait));
-        etats[move.sq0()] = undomove ? vide : trait;
-    }
-
-
     @Override
     public String toString() {
         StringBuilder spos = new StringBuilder();
         range(0, 100).forEach(_case -> {
             if (etats[_case] == vide) spos.append("- ");
             else {
-                String print =switch (etats[_case]) {
+                String print = switch (etats[_case]) {
                     case vide -> "_";
                     case blanc -> "b";
                     case noir -> "n";
@@ -199,19 +190,9 @@ public class Othello {
         return spos.toString();
     }
 
-
-    public Coups EvalRandom(List<Coups> lcoups) {
-        if (lcoups.size() != 0) return lcoups.get(new Random().nextInt(lcoups.size()));
-        else return NOMOVE;
-    }
-
-
-    abstract static class Etat {
-        abstract Etat exec();
-    }
-
     public record Coups(int sq0, List<Score> lscore) {
         public static Coups NOMOVE;
+
         @Override
         public String toString() {
             return "(" + SCASES[sq0] + ", " + lscore + ")";
