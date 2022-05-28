@@ -1,6 +1,5 @@
 package othello;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,7 +66,7 @@ public class Othello {
         if (o == null) {
             etats = ETATS_INIT.clone();
             trait = blanc;//noirs commencent
-            lcoups = new ArrayList<>();
+
         } else {
             etats = o.etats;
             trait = -o.trait;
@@ -93,19 +92,6 @@ public class Othello {
         };
     }
 
-    public static void main(String[] args) throws IOException {
-        new File(pathname + filename).createNewFile();
-        Othello.writter = new FileWriter(filename);
-        rangeClosed(1, Othello.max).forEach(
-                num -> {
-                    Othello.nb = num;
-
-                    new Othello(null).jouer();
-                }
-
-        );
-    }
-
     public void jouer() {
         findepartie = false;
         passe = false;
@@ -126,7 +112,6 @@ public class Othello {
                 // move = EvalRandom(lcoups.stream().distinct().toList());
                 move = (lcoups.size() != 0) ? lcoups.get(new Random().nextInt(lcoups.size()))
                         : NOMOVE;
-                //  move = getEvalMax().eval(lcoups.stream().distinct().toList());
                 if (move == NOMOVE) if (passe) findepartie = true;
                 else passe = true;
                 else {
@@ -156,8 +141,8 @@ public class Othello {
 
         try {
             // R = sB > sN ? "1" : (sN > sB ? "0" : "0.5");
-            Othello.writter.write(R + "," + sB + "," + sN);
-            Othello.writter.write("\n");
+         writter.write(R + "," + sB + "," + sN);
+          writter.write("\n");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -207,5 +192,9 @@ public class Othello {
         }
     }
 
+    public abstract static class Etat {
+        public abstract Etat exec();
 
+
+    }
 }

@@ -1,6 +1,6 @@
 package perft;
 
-import othello.Etat;
+
 import othello.Othello;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ class PerftSpeedTest {
             o.lscore = new ArrayList<>();
             o.DIRS.forEach(d -> {
                 o.dir = d;
-                Etat etat = o.S0;
+                Othello.Etat etat = o.S0;
                 while (true)
                     if ((etat = etat.exec()) == o.S1 || etat == null) break;
             });
