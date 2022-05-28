@@ -21,7 +21,7 @@ class PerftSpeedTest {
 
     static void perftTest() {
 
-        Othello o = new Othello();
+        Othello o = new Othello(null);
         double t0 = System.nanoTime();
         for (int depth = 1; depth <= MAX_DEPTH; depth++) {
             PerftResult res = perft(new Othello(o), depth);
@@ -99,7 +99,7 @@ class PerftSpeedTest {
         String[] expectcount = new String[]{"", "4", "12", "56", "244", "1396", "8200", "55092",
                 "390216", "3005288", "24571284", "212258800", "1939886636", "18429641748", "184042084512"};
 
-        Othello o = new Othello();
+        Othello o = new Othello(null);
         double t0 = System.nanoTime();
         for (int depth = 1; depth <= MAX_DEPTH; depth++) {
             PerftResult res = perft(new Othello(o), depth);
