@@ -60,38 +60,56 @@ public class Othello {
     public int caseO;
     int _case;
     public int dir;
-
-
-    public Etat S0 = new Etat() {
-        @Override
-        public Etat exec() {
-            n++;
-            return etats[_case = caseO + n * dir] == -trait ? S0.exec() : S1.exec();
-        }
-    };
-    public Etat S1 = new Etat() {
-        @Override
-        public Etat exec() {
-            if (etats[_case] == trait && n - 1 != 0) {
-                lscore.add(new Score(n - 1, dir));
-                lcoups.add(new Coups(caseO, lscore));
-            }
-            n = 0;
-            return null;
-        }
-    };
+    public Etat S0;
+    public Etat S1;
 
     public Othello() {
         etats = ETATS_INIT.clone();
         trait = blanc;//noirs commencent
         lcoups = new ArrayList<>();
 
+        S1 = new Etat() {
+            @Override
+            public Etat exec() {
+                if (etats[_case] == trait && n - 1 != 0) {
+                    lscore.add(new Score(n - 1, dir));
+                    lcoups.add(new Coups(caseO, lscore));
+                }
+                n = 0;
+                return null;
+            }
+        };
+        S0 = new Etat() {
+            @Override
+            public Etat exec() {
+                n++;
+                return etats[_case = caseO + n * dir] == -trait ? S0.exec() : S1.exec();
+            }
+        };
     }
 
     public Othello(Othello o) {
         etats = o.etats;
         trait = -o.trait;
         lcoups = new ArrayList<>();
+        S1 = new Etat() {
+            @Override
+            public Etat exec() {
+                if (etats[_case] == trait && n - 1 != 0) {
+                    lscore.add(new Score(n - 1, dir));
+                    lcoups.add(new Coups(caseO, lscore));
+                }
+                n = 0;
+                return null;
+            }
+        };
+        S0 = new Etat() {
+            @Override
+            public Etat exec() {
+                n++;
+                return etats[_case = caseO + n * dir] == -trait ? S0.exec() : S1.exec();
+            }
+        };
     }
 
     public static void main(String[] args) throws IOException {
