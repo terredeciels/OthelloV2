@@ -14,7 +14,6 @@ import static othello.Othello.Coups.NOMOVE;
 
 public class Othello {
 
-    public static boolean undomove = true;
     static String filename = "statistiques.txt";
     static String pathname = "C:\\Users\\gille\\IdeaProjects\\OthelloV2\\";
     static String[] SCASES = {"xx", "xx", "xx", "xx", "xx", "xx", "xx", "xx", "xx", "xx",
@@ -27,19 +26,6 @@ public class Othello {
             "xx", "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2", "xx",
             "xx", "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1", "xx",
             "xx", "xx", "xx", "xx", "xx", "xx", "xx", "xx", "xx", "xx"};
-    static int nb;
-    static int max = 100;
-    static FileWriter writter;
-    final static int noir = -1;
-    final static int blanc = 1;
-    public final static int vide = 0;
-    final static int out = 2;
-    public List<Coups> lcoups;
-    public int[] etats;
-    public Coups move;
-    public int trait;
-    int N = -10, E = 1, Ouest = -1, S = 10, NE = -9, SO = 9, NO = -11, SE = 11;
-    public List<Integer> DIRS = asList(N, NE, E, SE, S, SO, Ouest, NO);
     int[] ETATS_INIT = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
             2, 0, 0, 0, 0, 0, 0, 0, 0, 2,
             2, 0, 0, 0, 0, 0, 0, 0, 0, 2,
@@ -50,28 +36,34 @@ public class Othello {
             2, 0, 0, 0, 0, 0, 0, 0, 0, 2,
             2, 0, 0, 0, 0, 0, 0, 0, 0, 2,
             2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
-    boolean passe = true;
-    boolean findepartie;
+    static FileWriter writter;
+    final static int noir = -1;
+    final static int blanc = 1;
+    public final static int vide = 0;
+    final static int out = 2;
+    final static int max = 100;
+    static int nb = 0;
+    public List<Coups> lcoups;
+    public int[] etats;
+    public Coups move;
+    int N = -10, E = 1, Ouest = -1, S = 10, NE = -9, SO = 9, NO = -11, SE = 11;
+    public List<Integer> DIRS = asList(N, NE, E, SE, S, SO, Ouest, NO);
+    boolean passe = true, findepartie;
+    public static boolean undomove = true;
     int sN;
     int sB;
-    public List<Score> lscore;
     int n;
     public int caseO;
     int _case;
     public int dir;
-    public Etat S0;
-    public Etat S1;
+    public int trait;
+    public List<Score> lscore;
+    public Etat S0, S1;
 
     public Othello(Othello o) {
-        if (o == null) {
-            etats = ETATS_INIT.clone();
-            trait = blanc;//noirs commencent
-
-        } else {
-            etats = o.etats;
-            trait = -o.trait;
-            lcoups = new ArrayList<>();
-        }
+        etats = o == null ? ETATS_INIT.clone() : o.etats;
+        trait = o == null ? blanc : -o.trait;
+        lcoups = new ArrayList<>();
         S1 = new Etat() {
             @Override
             public Etat exec() {
@@ -109,6 +101,7 @@ public class Othello {
                             if ((etat = etat.exec()) == S1 || etat == null) break;
                     });
                 });
+
                 // move = EvalRandom(lcoups.stream().distinct().toList());
                 move = (lcoups.size() != 0) ? lcoups.get(new Random().nextInt(lcoups.size()))
                         : NOMOVE;
@@ -116,12 +109,14 @@ public class Othello {
                 else passe = true;
                 else {
                     if (passe) passe = false;
+
                     move.lscore()
                             .forEach(score -> rangeClosed(0, score.n())
                                     .forEach(n -> etats[move.sq0() + n * score.dir()] = !undomove ? -trait : trait));
                     etats[move.sq0()] = !undomove ? vide : trait;
                     // othprint.affichage();
                 }
+
                 trait = -trait;
                 lcoups = new ArrayList<>();
             } else break;
@@ -140,9 +135,8 @@ public class Othello {
         System.out.println(R + "," + sB + "," + sN);
 
         try {
-            // R = sB > sN ? "1" : (sN > sB ? "0" : "0.5");
-         writter.write(R + "," + sB + "," + sN);
-          writter.write("\n");
+            writter.write(R + "," + sB + "," + sN);
+            writter.write("\n");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
