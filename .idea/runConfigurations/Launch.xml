@@ -1,9 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Launch" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="othello.Launch" />
-    <module name="OthelloV2" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
-  </configuration>
-</component>

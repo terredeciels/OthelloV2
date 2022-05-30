@@ -1,5 +1,6 @@
 package othello;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +14,18 @@ import static othello.Othello.Coups.NOMOVE;
 
 
 public class Othello {
+    public static void main(String[] args) throws IOException {
+        new File(pathname + filename).createNewFile();
+        writter = new FileWriter(filename);
+        rangeClosed(1, max).forEach(
+                num -> {
+                    nb = num;
+
+                    new Othello(null).jouer();
+                }
+
+        );
+    }
 
     static String filename = "statistiques.txt";
     static String pathname = "C:\\Users\\gille\\IdeaProjects\\OthelloV2\\";
@@ -41,7 +54,7 @@ public class Othello {
     final static int blanc = 1;
     public final static int vide = 0;
     final static int out = 2;
-    final static int max = 100;
+    final static int max = 1;
     static int nb = 0;
     public List<Coups> lcoups;
     public int[] etats;
@@ -62,7 +75,7 @@ public class Othello {
 
     public Othello(Othello o) {
         etats = o == null ? ETATS_INIT.clone() : o.etats;
-        trait = o == null ? blanc : -o.trait;
+        trait = o == null ? noir : -o.trait;
         lcoups = new ArrayList<>();
         S1 = new Etat() {
             @Override
@@ -114,7 +127,7 @@ public class Othello {
                             .forEach(score -> rangeClosed(0, score.n())
                                     .forEach(n -> etats[move.sq0() + n * score.dir()] = !undomove ? -trait : trait));
                     etats[move.sq0()] = !undomove ? vide : trait;
-                    // othprint.affichage();
+                    affichage(this);
                 }
 
                 trait = -trait;
@@ -148,6 +161,15 @@ public class Othello {
             }
 
         }
+    }
+
+    void affichage(Othello o) {
+        for (Othello.Coups cps : o.lcoups)
+            System.out.println(cps);
+        System.out.println("num " + nb++);
+        System.out.println(o.trait == blanc ? "blanc" : "noir");
+        System.out.println(SCASES[o.move.sq0()]);
+        System.out.println(o);
     }
 
     @Override

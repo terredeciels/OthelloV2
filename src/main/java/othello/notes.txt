@@ -1,8 +1,0 @@
-   void affichage() {
-        for (Othello.Coups cps : o.lcoups)
-            System.out.println(cps);
-        System.out.println("num " + num++);
-        System.out.println(o.trait == blanc ? "blanc" : "noir");
-        System.out.println(SCASES[o.move.sq0()]);
-        System.out.println(o);
-    }
