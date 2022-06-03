@@ -1,6 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="PerftSpeedTest" type="JUnit" factoryName="JUnit">
-    <module name="OthelloV2" />
+    <module name="OthME" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="ALTERNATIVE_JRE_PATH" value="18" />
     <option name="PACKAGE_NAME" value="perft" />
     <option name="MAIN_CLASS_NAME" value="perft.PerftSpeedTest" />
     <option name="METHOD_NAME" value="" />
