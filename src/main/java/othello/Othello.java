@@ -62,7 +62,7 @@ public class Othello {
     int N = -10, E = 1, Ouest = -1, S = 10, NE = -9, SO = 9, NO = -11, SE = 11;
     public List<Integer> DIRS = asList(N, NE, E, SE, S, SO, Ouest, NO);
     boolean passe = true, findepartie;
-    public static boolean undomove = true;
+   public static boolean undomove ;
     int sN;
     int sB;
     int n;
@@ -123,10 +123,7 @@ public class Othello {
                 else {
                     if (passe) passe = false;
 
-                    move.lscore()
-                            .forEach(score -> rangeClosed(0, score.n())
-                                    .forEach(n -> etats[move.sq0() + n * score.dir()] = !undomove ? -trait : trait));
-                    etats[move.sq0()] = !undomove ? vide : trait;
+                    fmove(undomove);
                     affichage(this);
                 }
 
@@ -161,6 +158,13 @@ public class Othello {
             }
 
         }
+    }
+
+    public void fmove(boolean undomove) {
+        move.lscore()
+                .forEach(score -> rangeClosed(0, score.n())
+                        .forEach(n -> etats[move.sq0() + n * score.dir()] = undomove ? -trait : trait));
+        etats[move.sq0()] = undomove ? vide : trait;
     }
 
     void affichage(Othello o) {

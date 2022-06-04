@@ -57,17 +57,17 @@ class PerftSpeedTest {
         if (moves.size() != 0) {
             for (Othello.Coups move : moves) {
                 o.move = move;
-                //o.fmove(!undomove);
-                move.lscore()
-                        .forEach(score -> rangeClosed(0, score.n())
-                                .forEach(n -> o.etats[move.sq0() + n * score.dir()] = !undomove ? -o.trait : o.trait));
-                o.etats[move.sq0()] = !undomove ? vide : o.trait;
+                o.fmove(undomove);
+//                move.lscore()
+//                        .forEach(score -> rangeClosed(0, score.n())
+//                                .forEach(n -> o.etats[move.sq0() + n * score.dir()] = !undomove ? -o.trait : o.trait));
+//                o.etats[move.sq0()] = !undomove ? vide : o.trait;
                 PerftResult subPerft = perft(new Othello(o), depth - 1);
-               // o.fmove(undomove);
-                move.lscore()
-                        .forEach(score -> rangeClosed(0, score.n())
-                                .forEach(n -> o.etats[move.sq0() + n * score.dir()] = undomove ? -o.trait : o.trait));
-                o.etats[move.sq0()] = undomove ? vide : o.trait;
+               o.fmove(!undomove);
+//                move.lscore()
+//                        .forEach(score -> rangeClosed(0, score.n())
+//                                .forEach(n -> o.etats[move.sq0() + n * score.dir()] = undomove ? -o.trait : o.trait));
+//                o.etats[move.sq0()] = undomove ? vide : o.trait;
                 result.moveCount += subPerft.moveCount;
 
             }
