@@ -7,7 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="OthelloV1" />
-        <module name="OthME" />
+        <module name="OthelloV2" />
       </profile>
     </annotationProcessing>
   </component>
